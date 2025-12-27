@@ -41,7 +41,7 @@ public class AuthService {
 
         userRepository.save(newUser);
 
-        sendVerificationEmail(newUser);
+        //sendVerificationEmail(newUser); // Email verification disabled
 
         return toResponse(newUser);
     }
@@ -88,9 +88,9 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .profileImageUrl(request.getProfileImageUrl())
                 .subscriptionPlan("Basic")
-                .emailVerified(false)
-                .verificationToken(UUID.randomUUID().toString())
-                .verificationExpires(LocalDateTime.now().plusHours(24))
+                .emailVerified(true) // Set to true by default
+                .verificationToken(null) // No token needed
+                .verificationExpires(null) // No expiration needed
                 .build();
     }
 
@@ -123,9 +123,9 @@ public class AuthService {
             throw new UsernameNotFoundException("Invalid email or password");
         }
 
-        if (!existingUser.isEmailVerified()) {
-            throw new RuntimeException("Please verify your email before logging in.");
-        }
+//        if (!existingUser.isEmailVerified()) {
+//            throw new RuntimeException("Please verify your email before logging in.");
+//        }
 
         String token = jwtUtil.generateToken(existingUser.getId());
 

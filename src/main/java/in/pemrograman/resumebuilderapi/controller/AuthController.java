@@ -39,9 +39,11 @@ public class AuthController {
 
     @GetMapping(VERIFY_EMAIL)
     public ResponseEntity<?> verifyEmail(@RequestParam String token) {
-        log.info("Inside AuthController - verifyEmail(): {}", token);
-        authService.verifyEmail(token);
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Email verified successfully"));
+        // Feature temporarily disabled/not needed
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Email verification is currently disabled. You can login directly."));
+//        log.info("Inside AuthController - verifyEmail(): {}", token);
+//        authService.verifyEmail(token);
+//        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Email verified successfully"));
     }
 
     @PostMapping(UPLOAD_PROFILE)
@@ -59,19 +61,22 @@ public class AuthController {
 
     @PostMapping(RESEND_VERIFICATION)
     public ResponseEntity<?> resendVerification(@RequestBody Map<String, String> body) {
-        //Step 1: Get the email from request
-        String email = body.get("email");
-
-        //Step 2: Add the validations
-        if (Objects.isNull(email)) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
-        }
-
-        //Step 3: Call the service method to resend verification link
-        authService.resendVerification(email);
-
-        //Step 4: Return response
-        return ResponseEntity.ok(Map.of("success", true, "message", "Verification email sent"));
+        // Feature temporarily disabled
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(Map.of("message", "Resend verification feature is temporarily disabled"));
+//        //Step 1: Get the email from request
+//        String email = body.get("email");
+//
+//        //Step 2: Add the validations
+//        if (Objects.isNull(email)) {
+//            return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
+//        }
+//
+//        //Step 3: Call the service method to resend verification link
+//        authService.resendVerification(email);
+//
+//        //Step 4: Return response
+//        return ResponseEntity.ok(Map.of("success", true, "message", "Verification email sent"));
     }
 
     @GetMapping(PROFILE)

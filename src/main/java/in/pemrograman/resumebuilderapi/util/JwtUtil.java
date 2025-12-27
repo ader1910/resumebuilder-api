@@ -1,5 +1,6 @@
 package in.pemrograman.resumebuilderapi.util;
 
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
