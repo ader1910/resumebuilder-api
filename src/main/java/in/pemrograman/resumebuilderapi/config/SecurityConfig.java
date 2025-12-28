@@ -55,7 +55,7 @@ public class SecurityConfig {
         // Tambahkan URL Vercel Anda di sini
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
-                "https://resumecv-green.vercel.app"
+                "https://resumecv-kelompok4.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
