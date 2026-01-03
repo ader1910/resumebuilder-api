@@ -39,11 +39,20 @@ public class AuthService {
 
         User newUser = toDocument(request);
 
+        // 1. Simpan user ke database
         userRepository.save(newUser);
+
+        // 2. GENERATE TOKEN (PERBAIKAN UTAMA ADA DI SINI)
+        // Kita buat token menggunakan ID user yang baru saja disimpan
+        String token = jwtUtil.generateToken(newUser.getId());
+
+        // 3. Masukkan token ke dalam response
+        AuthResponse response = toResponse(newUser);
+        response.setToken(token);
 
         //sendVerificationEmail(newUser); // Email verification disabled
 
-        return toResponse(newUser);
+        return response;
     }
 
     private void sendVerificationEmail(User newUser) {
@@ -69,6 +78,7 @@ public class AuthService {
     }
 
     private AuthResponse toResponse(User newUser) {
+        // Method ini hanya memetakan data user, token di-set manual di method register/login
         return AuthResponse.builder()
                 .id(newUser.getId())
                 .name(newUser.getName())
@@ -95,7 +105,7 @@ public class AuthService {
     }
 
     public void verifyEmail(String token) {
-        log.info("Inside AuthService: verifyEmail() receiving token: {}", token); // Log tambahan untuk debug
+        log.info("Inside AuthService: verifyEmail() receiving token: {}", token);
 
         User user = userRepository.findByVerificationToken(token)
                 .orElseThrow(() -> {

@@ -1,0 +1,22 @@
+app: resumebuilderapi
+type: web
+
+services:
+  - name: resumebuilderapi
+    image: docker.io/library/openjdk:21-jdk  # This is a placeholder; Koyeb usually builds from Git
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - port: 8080
+        protocol: http
+    routes:
+      - path: /
+        port: 8080
+    health_checks:
+      - protocol: tcp
+        port: 8080
+        interval: 30s
+        timeout: 5s
+        restart_limit: 3
+    # Environment variables should be set in the Koyeb Dashboard using the content of KOYEB_ENV_VARS.txt
+    # to avoid committing secrets to your repository.
